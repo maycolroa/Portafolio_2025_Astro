@@ -65,7 +65,7 @@ const { number, title, description, detailedInfo = [] } = Astro.props;
         isExpanded = !isExpanded;
         
         // Manejar el ícono
-        if (icon && icon instanceof HTMLElement) {
+        if (icon) {
           icon.style.transform = isExpanded ? 'rotate(90deg)' : '';
         }
         
