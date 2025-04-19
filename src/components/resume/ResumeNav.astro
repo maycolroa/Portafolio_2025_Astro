@@ -13,11 +13,11 @@ const { activeSection = 'experience' } = Astro.props;
     Enfocado en resultados y en brindar la mejor experiencia al usuario.
   </p>
   
-  <div class="flex flex-col md:flex-row flex-wrap gap-2">
+  <div class="flex flex-col gap-3 w-full">
     <a 
       href="#experience" 
       data-section="experience"
-      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-center ${
+      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-left w-full ${
         activeSection === 'experience' 
         ? 'bg-emerald-400 text-[#000000]' 
         : 'bg-gray-900 text-[#FFFFFF] hover:bg-opacity-30 hover:text-emerald-400'
@@ -28,7 +28,7 @@ const { activeSection = 'experience' } = Astro.props;
     <a 
       href="#education" 
       data-section="education"
-      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-center ${
+      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-left w-full ${
         activeSection === 'education' 
         ? 'bg-emerald-400 text-[#000000]' 
         : 'bg-gray-900 text-[#FFFFFF] hover:bg-opacity-30 hover:text-emerald-400'
@@ -39,7 +39,7 @@ const { activeSection = 'experience' } = Astro.props;
     <a 
       href="#skills" 
       data-section="skills"
-      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-center ${
+      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-left w-full ${
         activeSection === 'skills' 
         ? 'bg-emerald-400 text-[#000000]' 
         : 'bg-gray-900 text-[#FFFFFF] hover:bg-opacity-30 hover:text-emerald-400'
@@ -50,7 +50,7 @@ const { activeSection = 'experience' } = Astro.props;
     <a 
       href="#about" 
       data-section="about"
-      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-center ${
+      class={`resume-nav-item px-5 py-3 rounded-lg font-medium transition-colors duration-300 text-left w-full ${
         activeSection === 'about' 
         ? 'bg-emerald-400 text-[#000000]' 
         : 'bg-gray-900 text-[#FFFFFF] hover:bg-opacity-30 hover:text-emerald-400'
