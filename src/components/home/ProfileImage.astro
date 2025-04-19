@@ -1,0 +1,36 @@
+<div class="relative flex justify-center items-center w-full h-full">
+  <!-- Imagen circular con borde -->
+  <div class="relative w-60 h-60 md:w-80 md:h-80 lg:w-[350px] lg:h-[350px] rounded-full overflow-hidden z-10 bg-black border-3 border-emerald-400 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]">
+    <img src="/images/foto-perfil.jpeg" alt="Maycol Roa" class="w-full h-full object-cover rounded-full" />
+  </div>
+  
+  <!-- Efectos de cargando alrededor de la foto -->
+  <div class="absolute w-[330px] h-[330px] md:w-[400px] md:h-[400px] lg:w-[400px] lg:h-[400px] rounded-full border-dashed border-2 border-emerald-400 border-t-transparent animate-spin-slow z-0 opacity-70 transition-all duration-500"></div>
+  
+  <div class="absolute w-[370px] h-[370px] md:w-[420px] md:h-[420px] lg:w-[450px] lg:h-[450px] rounded-full border-2 border-emerald-400 border-l-transparent border-r-transparent animate-spin-reverse z-0 opacity-40 transition-all duration-500"></div>
+</div>
+
+<script>
+  // Este script se ejecutará en el cliente
+  document.addEventListener('DOMContentLoaded', function() {
+    const profileImage = document.querySelector('.relative.w-80.h-80');
+    const spinner = document.querySelector('.animate-spin-slow');
+    const spinnerInner = document.querySelector('.animate-spin-reverse');
+    
+    if (profileImage && spinner && spinnerInner) {
+      profileImage.addEventListener('mouseenter', function() {
+        spinner.classList.remove('opacity-70');
+        spinner.classList.add('opacity-90');
+        spinnerInner.classList.remove('opacity-40');
+        spinnerInner.classList.add('opacity-60');
+      });
+      
+      profileImage.addEventListener('mouseleave', function() {
+        spinner.classList.remove('opacity-90');
+        spinner.classList.add('opacity-70');
+        spinnerInner.classList.remove('opacity-60');
+        spinnerInner.classList.add('opacity-40');
+      });
+    }
+  });
+</script>

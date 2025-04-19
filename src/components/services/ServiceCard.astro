@@ -1,0 +1,88 @@
+---
+export interface DetailItem {
+  title: string;
+  text: string;
+}
+
+export interface Props {
+  number: string;
+  title: string;
+  description: string;
+  detailedInfo?: DetailItem[];
+}
+
+const { number, title, description, detailedInfo = [] } = Astro.props;
+---
+
+<div class="service-card bg-gray-900 rounded-lg overflow-hidden border-l-4 border-transparent hover:border-l-emerald-400 transition-all duration-300 hover:shadow-xl">
+  <!-- Cabecera de la tarjeta (siempre visible) -->
+  <div class="service-card-header p-6 flex justify-between items-start cursor-pointer">
+    <div class="flex-1">
+      <div class="font-mono text-2xl font-bold text-emerald-400 opacity-80 mb-3">{number}</div>
+      <h3 class="text-xl font-bold mb-2">{title}</h3>
+      <p class="text-gray-400">{description}</p>
+    </div>
+    
+    <div class="ml-4">
+      <div class="service-card-icon flex items-center justify-center w-12 h-12 rounded-full bg-emerald-400 hover:bg-emerald-500 transition-all duration-300">
+        <svg class="w-5 h-5 text-black transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contenido expandible (oculto por defecto) -->
+  {detailedInfo.length > 0 && (
+    <div class="service-card-content max-h-0 opacity-0 overflow-hidden bg-gray-800 transition-all duration-300">
+      <div class="p-6 border-l-2 border-emerald-400 mx-6 my-4">
+        {detailedInfo.map((info) => (
+          <div class="mb-4 last:mb-0">
+            <h4 class="text-lg font-bold mb-2">{info.title}</h4>
+            <p class="text-gray-400">{info.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
+<script>
+  // Script para manejar la expansión de las tarjetas
+  document.addEventListener('DOMContentLoaded', () => {
+    const serviceCards = document.querySelectorAll('.service-card');
+    
+    serviceCards.forEach(card => {
+      const header = card.querySelector('.service-card-header');
+      const content = card.querySelector('.service-card-content') as HTMLElement;
+      const icon = card.querySelector('.service-card-icon svg');
+      
+      if (!content) return; // Si no hay contenido expandible, no hacer nada
+      
+      let isExpanded = false;
+      
+      header?.addEventListener('click', () => {
+        isExpanded = !isExpanded;
+        
+        // Manejar el ícono
+        if (icon && icon instanceof HTMLElement) {
+          icon.style.transform = isExpanded ? 'rotate(90deg)' : '';
+        }
+        
+        // Manejar la animación del contenido
+        if (isExpanded) {
+          content.style.maxHeight = `${content.scrollHeight}px`;
+          content.style.opacity = '1';
+          // Desactivar hover en tarjeta expandida
+          card.classList.add('expanded');
+          card.classList.remove('hover:-translate-y-2');
+        } else {
+          content.style.maxHeight = '0';
+          content.style.opacity = '0';
+          // Reactivar hover cuando se cierra
+          card.classList.remove('expanded');
+        }
+      });
+    });
+  });
+</script>

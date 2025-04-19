@@ -1,0 +1,156 @@
+/* Variables globales y reset básico */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-black text-white font-sans;
+  }
+
+  ::selection {
+    @apply bg-emerald-400 bg-opacity-30 text-white;
+  }
+}
+
+@layer components {
+  /* Clases de animación para la imagen de perfil */
+  .profile-particle {
+    @apply absolute bg-emerald-400 rounded-full pointer-events-none;
+  }
+
+  /* Efecto de sombra de texto para color esmeralda */
+  .text-shadow-emerald {
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+
+  /* Clases para animaciones */
+  .fade-in {
+    animation: fadeIn 0.8s ease forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-3 {
+    animation-delay: 0.3s;
+  }
+
+  .delay-4 {
+    animation-delay: 0.4s;
+  }
+  
+  /* Animación básica de página */
+  .page-transition {
+    animation: pageTransition 0.5s ease-out;
+  }
+  
+  /* Estilos para las tarjetas de servicio expandibles */
+  .service-card {
+    @apply transition-all duration-300 hover:-translate-y-2;
+  }
+  
+  .service-card.expanded {
+    @apply transform-none hover:transform-none shadow-lg;
+  }
+  
+  .service-card-header {
+    @apply transition-all duration-300;
+  }
+  
+  .service-card-content {
+    @apply transition-all duration-300;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+  
+  .service-card:hover .service-card-icon {
+    @apply translate-x-1;
+  }
+  
+  .service-card.expanded .service-card-icon svg {
+    @apply rotate-90;
+  }
+}
+
+@layer utilities {
+  /* Utilidad para transiciones más suaves */
+  .transition-all-300 {
+    @apply transition-all duration-300;
+  }
+
+  /* Botones de acción */
+  .btn-primary {
+    @apply bg-emerald-400 text-black px-6 py-2 rounded-full flex items-center gap-2 font-medium transition-all duration-300 hover:bg-emerald-500 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Enlaces con borde inferior esmeralda */
+  .link-underline {
+    @apply relative pb-1;
+  }
+
+  .link-underline::after {
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 transition-all duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+}
+
+/* Keyframes específicos */
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación simple para transición de página */
+@keyframes pageTransition {
+  from { 
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animaciones para tarjetas de servicio */
+@keyframes expandCard {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes collapseCard {
+  from {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

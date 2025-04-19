@@ -1,22 +1,251 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Portfolio personal de Maycol Roa, desarrollador web" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- ClientRouter con configuración básica -->
+    <ClientRouter />
+    <script src="/src/scripts/profile-effects.js" defer></script>
+  </head>
+  <body class="bg-black text-white font-['Inter',sans-serif] leading-relaxed min-h-screen flex flex-col">
+    <div class="page-transition">
+      <slot />
+    </div>
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<!-- Script para reinicializar los componentes interactivos -->
+<script is:inline>
+  // Función para inicializar el menú de navegación del resume
+  function initResumeNav() {
+    const navItems = document.querySelectorAll('.resume-nav-item');
+    const sections = document.querySelectorAll('[id$="-section"]');
+    
+    if (navItems && navItems.length > 0) {
+      navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Obtener el id de la sección
+          const sectionId = this.getAttribute('data-section');
+          if (!sectionId) return;
+          
+          // Actualizar navegación
+          navItems.forEach(nav => {
+            nav.classList.remove('bg-emerald-400', 'text-[#000000]');
+            nav.classList.add('bg-gray-900', 'text-[#FFFFFF]', 'hover:bg-opacity-30', 'hover:text-emerald-400');
+          });
+          
+          this.classList.remove('bg-gray-900', 'text-[#FFFFFF]', 'hover:bg-opacity-30', 'hover:text-emerald-400');
+          this.classList.add('bg-emerald-400', 'text-[#000000]');
+          
+          // Ocultar/mostrar secciones
+          sections.forEach(section => {
+            section.classList.add('hidden');
+          });
+          
+          const targetSection = document.getElementById(`${sectionId}-section`);
+          if (targetSection) {
+            targetSection.classList.remove('hidden');
+            
+            // Animar barras si es la sección de habilidades
+            if (sectionId === 'skills') {
+              const skillBars = document.querySelectorAll('.skill-progress');
+              skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width') || '0%';
+                bar.style.width = '0%';
+                setTimeout(() => {
+                  bar.style.width = width;
+                }, 100);
+              });
+            }
+          }
+        });
+      });
+    }
+  }
+
+  // Función para inicializar el carrusel de proyectos
+  function initProjectCarousel() {
+    const prevButton = document.getElementById('prevProject');
+    const nextButton = document.getElementById('nextProject');
+    const projects = document.querySelectorAll('.project');
+    const indicators = document.querySelectorAll('[data-index]');
+    
+    if (!prevButton || !nextButton || projects.length === 0) return;
+    
+    let currentIndex = 0;
+    
+    function showProject(index) {
+      // Ocultar todos los proyectos
+      projects.forEach(project => {
+        project.classList.add('hidden');
+        project.classList.remove('active');
+      });
+      
+      // Mostrar el proyecto seleccionado
+      const projectToShow = projects[index];
+      if (projectToShow) {
+        projectToShow.classList.remove('hidden');
+        projectToShow.classList.add('active');
+      }
+      
+      // Actualizar indicadores
+      indicators.forEach((indicator, i) => {
+        if (i === index) {
+          indicator.classList.remove('bg-gray-600', 'w-2');
+          indicator.classList.add('bg-emerald-400', 'w-8');
+        } else {
+          indicator.classList.remove('bg-emerald-400', 'w-8');
+          indicator.classList.add('bg-gray-600', 'w-2');
+        }
+      });
+      
+      currentIndex = index;
+    }
+    
+    function showPrevProject() {
+      let newIndex = currentIndex - 1;
+      if (newIndex < 0) {
+        newIndex = projects.length - 1;
+      }
+      showProject(newIndex);
+      resetTimer();
+    }
+    
+    function showNextProject() {
+      let newIndex = currentIndex + 1;
+      if (newIndex >= projects.length) {
+        newIndex = 0;
+      }
+      showProject(newIndex);
+      resetTimer();
+    }
+    
+    // Event listeners para botones de navegación
+    prevButton.addEventListener('click', showPrevProject);
+    nextButton.addEventListener('click', showNextProject);
+    
+    // Event listeners para indicadores
+    indicators.forEach(indicator => {
+      indicator.addEventListener('click', function() {
+        const index = parseInt(this.getAttribute('data-index') || '0', 10);
+        showProject(index);
+        resetTimer();
+      });
+    });
+    
+    // Cambio automático
+    let autoTimer = setInterval(showNextProject, 8000);
+    
+    function resetTimer() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(showNextProject, 8000);
+    }
+    
+    // Exportar funciones para uso global
+    window.projectCarousel = {
+      showProject,
+      showPrevProject,
+      showNextProject,
+      resetTimer
+    };
+    
+    // Mostrar el primer proyecto
+    showProject(0);
+  }
+
+  // Inicializar en la carga inicial
+  document.addEventListener('DOMContentLoaded', function() {
+    initResumeNav();
+    initProjectCarousel();
+  });
+  
+  // También inicializar después de cada transición de página
+  document.addEventListener('astro:page-load', function() {
+    initResumeNav();
+    initProjectCarousel();
+    
+    // Cancelar timers anteriores para evitar duplicados
+    if (window.projectCarouselTimer) {
+      clearInterval(window.projectCarouselTimer);
+    }
+  });
+  
+  // Limpiar antes de nueva carga
+  document.addEventListener('astro:before-swap', function() {
+    // Limpiar cualquier timer que exista
+    if (window.projectCarouselTimer) {
+      clearInterval(window.projectCarouselTimer);
+    }
+  });
+</script>
+
+<style is:global>
+  /* Tus estilos actuales */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes spin-reverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Custom Tailwind utilities */
+  .animate-spin-slow {
+    animation: spin 4s linear infinite;
+  }
+  
+  .animate-spin-reverse {
+    animation: spin-reverse 10s linear infinite;
+  }
+  
+  /* Prevent layout shifts during loading */
+  .fade-in-on-load {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  
+  /* Animación simple de página */
+  .page-transition {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Estilos para el carrusel */
+  .project {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  
+  .project.active {
+    display: block;
+    opacity: 1;
+    animation: fadeIn 0.8s ease forwards;
+  }
 </style>

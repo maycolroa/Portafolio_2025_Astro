@@ -1,0 +1,133 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/common/NavBar.astro';
+import Footer from '../components/common/Footer.astro';
+import ServiceCard from '../components/services/ServiceCard.astro';
+import FeatureCard from '../components/services/FeatureCard.astro';
+
+// Datos para las tarjetas de servicios con información detallada
+const services = [
+  {
+    number: '01',
+    title: 'Full Stack Developer',
+    description: 'Desarrollo aplicaciones web completas, desde el frontend hasta el backend, utilizando tecnologías modernas y escalables.',
+    detailedInfo: [
+      {
+        title: 'Frontend',
+        text: 'Desarrollo de interfaces dinámicas con React, Vue o Angular, implementando diseños responsivos y accesibles.'
+      },
+      {
+        title: 'Backend',
+        text: 'Creación de APIs RESTful y GraphQL con Node.js, Express, Django o Laravel, optimizadas para rendimiento.'
+      },
+      {
+        title: 'Base de datos',
+        text: 'Diseño de esquemas y gestión de bases de datos SQL y NoSQL para almacenamiento eficiente de datos.'
+      }
+    ]
+  },
+  {
+    number: '02',
+    title: 'UI/UX Design',
+    description: 'Diseño interfaces intuitivas y experiencias de usuario que conectan con tu audiencia y mejoran la conversión.',
+    detailedInfo: [
+      {
+        title: 'Investigación de usuarios',
+        text: 'Análisis del comportamiento y necesidades de los usuarios para crear experiencias centradas en ellos.'
+      },
+      {
+        title: 'Wireframing y Prototipos',
+        text: 'Construcción de maquetas interactivas para validar conceptos antes del desarrollo.'
+      },
+      {
+        title: 'Sistemas de diseño',
+        text: 'Creación de componentes reutilizables y guías de estilo para mantener la consistencia visual.'
+      }
+    ]
+  },
+  {
+    number: '03',
+    title: 'Arquitecto de soluciones',
+    description: 'Diseño arquitecturas de software eficientes y escalables, adaptadas a las necesidades específicas de tu negocio.',
+    detailedInfo: [
+      {
+        title: 'Planificación técnica',
+        text: 'Diseño de arquitecturas que satisfacen requisitos funcionales y no funcionales del proyecto.'
+      },
+      {
+        title: 'Microservicios',
+        text: 'Implementación de soluciones distribuidas que permiten escalar componentes de forma independiente.'
+      },
+      {
+        title: 'DevOps',
+        text: 'Configuración de pipelines CI/CD y entornos cloud para despliegues automáticos y monitorizados.'
+      }
+    ]
+  },
+  {
+    number: '04',
+    title: 'Inteligencia Artificial',
+    description: 'Implemento soluciones de IA para optimizar procesos y mejorar la toma de decisiones en tu negocio.',
+    detailedInfo: [
+      {
+        title: 'Machine Learning',
+        text: 'Desarrollo de modelos predictivos que detectan patrones y transforman datos en insights accionables.'
+      },
+      {
+        title: 'Procesamiento de lenguaje natural',
+        text: 'Implementación de chatbots y sistemas de análisis de texto para automatizar interacciones con usuarios.'
+      },
+      {
+        title: 'Integración de IA',
+        text: 'Incorporación de APIs de IA como OpenAI, Google AI o Azure Cognitive Services en aplicaciones existentes.'
+      }
+    ]
+  }
+];
+
+// Datos para las características
+const features = [
+  {
+    title: 'Entrega rápida',
+    description: 'Trabajo con eficiencia para entregar proyectos de alta calidad en plazos ajustados.',
+    icon: '<svg class="w-8 h-8 text-emerald-400 group-hover:text-black transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>'
+  },
+  {
+    title: 'Calidad garantizada',
+    description: 'Cada proyecto cumple con los más altos estándares de calidad y mejores prácticas.',
+    icon: '<svg class="w-8 h-8 text-emerald-400 group-hover:text-black transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>'
+  },
+  {
+    title: 'Soporte continuo',
+    description: 'Ofrezco comunicación clara y soporte técnico después de finalizado el proyecto.',
+    icon: '<svg class="w-8 h-8 text-emerald-400 group-hover:text-black transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>'
+  }
+];
+---
+
+<Layout title="Servicios | Maycol Roa">
+  <Navbar activeLink="services" />
+  
+  <main class="container mx-auto px-6 py-12">
+    <!-- Services Header -->
+    <div class="text-center mb-16 fade-in">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Mis <span class="text-emerald-400">Servicios</span></h1>
+      <p class="text-gray-400 max-w-2xl mx-auto">Ofrezco soluciones digitales completas para ayudar a empresas y particulares a destacar en el mundo digital.</p>
+      <p class="text-gray-300 mt-2 text-sm">Haz clic en cada servicio para ver más detalles</p>
+    </div>
+    
+    <!-- Services Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 fade-in delay-1">
+      {services.map(service => (
+        <ServiceCard 
+          number={service.number}
+          title={service.title}
+          description={service.description}
+          detailedInfo={service.detailedInfo}
+        />
+      ))}
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>

@@ -1,0 +1,269 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/common/NavBar.astro';
+import Footer from '../components/common/Footer.astro';
+import ResumeNav from '../components/resume/ResumeNav.astro';
+import Timeline from '../components/resume/Timeline.astro';
+import SkillCard from '../components/resume/SkillCard.astro';
+
+// Datos de experiencia
+const experienceItems = [
+  {
+    period: '2022 - Present',
+    title: 'Full Stack Developer',
+    company: 'Tech Solutions Inc.',
+    points: [
+      'Desarrollo de aplicaciones web usando React, Node.js y MongoDB',
+      'Implementación de APIs RESTful y arquitecturas modernas'
+    ]
+  },
+  {
+    period: 'Summer 2021',
+    title: 'Front-End Developer Intern',
+    company: 'Web Design Studio',
+    points: [
+      'Diseño y desarrollo de interfaces utilizando HTML, CSS y JavaScript',
+      'Colaboración en proyectos de e-commerce y plataformas educativas'
+    ]
+  },
+  {
+    period: '2020 - 2021',
+    title: 'Freelance Web Developer',
+    company: 'E-commerce startup',
+    points: [
+      'Creación de plataformas de comercio electrónico personalizadas',
+      'Implementación de soluciones de pago y gestión de inventario'
+    ]
+  },
+  {
+    period: '2019 - 2020',
+    title: 'Teaching Assistant',
+    company: 'Tech Academy',
+    points: [
+      'Apoyo en cursos de desarrollo web y fundamentos de programación',
+      'Tutoría personalizada a estudiantes en proyectos finales'
+    ]
+  }
+];
+
+// Datos de educación
+const educationItems = [
+  {
+    period: '2017 - 2021',
+    title: 'Bachelor in Computer Science',
+    company: 'Universidad Nacional de Colombia',
+    points: [
+      'GPA: 4.0',
+      'Especialización en Desarrollo de Software',
+      'Proyecto destacado: Plataforma de gestión académica'
+    ]
+  },
+  {
+    period: '2022',
+    title: 'Full Stack Web Development Certificate',
+    company: 'Platzi',
+    points: [
+      'Completé más de 20 cursos en desarrollo web moderno',
+      'Proyecto final: Aplicación de gestión de tareas con React y Firebase'
+    ]
+  }
+];
+
+// Datos de habilidades técnicas
+const technicalSkills = [
+  {
+    number: '01',
+    title: 'HTML/CSS',
+    description: 'Experiencia sólida en desarrollo de interfaces web modernas, responsive y accesibles utilizando las últimas características de HTML5 y CSS3.',
+    percentage: '95%'
+  },
+  {
+    number: '02',
+    title: 'JavaScript',
+    description: 'Dominio avanzado de JavaScript moderno (ES6+), construyendo aplicaciones interactivas y dinámicas con un enfoque en rendimiento.',
+    percentage: '90%'
+  },
+  {
+    number: '03',
+    title: 'React',
+    description: 'Desarrollo de aplicaciones frontend con React, utilizando hooks, context API y patrones de arquitectura modernos.',
+    percentage: '85%'
+  },
+  {
+    number: '04',
+    title: 'Node.js',
+    description: 'Implementación de backends robustos con Node.js, creando APIs RESTful y microservicios escalables.',
+    percentage: '80%'
+  }
+];
+
+// Datos de habilidades blandas
+const softSkills = [
+  {
+    number: '05',
+    title: 'Communication',
+    description: 'Capacidad para comunicar ideas técnicas complejas de manera clara y efectiva, tanto a equipos técnicos como a clientes.',
+    percentage: '90%'
+  },
+  {
+    number: '06',
+    title: 'Teamwork',
+    description: 'Experiencia trabajando en equipos multidisciplinarios, colaborando eficazmente y aportando soluciones creativas.',
+    percentage: '95%'
+  },
+  {
+    number: '07',
+    title: 'Problem Solving',
+    description: 'Capacidad analítica para identificar problemas, evaluar alternativas y desarrollar soluciones óptimas.',
+    percentage: '85%'
+  },
+  {
+    number: '08',
+    title: 'Creativity',
+    description: 'Enfoque creativo para el diseño y desarrollo, buscando constantemente formas innovadoras de resolver problemas.',
+    percentage: '80%'
+  }
+];
+---
+
+<Layout title="Resume | Maycol Roa">
+  <Navbar activeLink="resume" />
+  
+  <main class="container mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+      <!-- Barra lateral -->
+      <div class="lg:col-span-1">
+        <ResumeNav activeSection="experience" />
+      </div>
+      
+      <!-- Contenido principal -->
+      <div class="lg:col-span-3">
+        <!-- Sección de Experiencia -->
+        <section id="experience-section" class="animate-fadeIn">
+          <h2 class="text-3xl font-bold mb-4">My experience</h2>
+          <p class="text-gray-400 mb-8 max-w-3xl">
+            A lo largo de mi carrera, he desarrollado habilidades en diversas tecnologías y frameworks, 
+            siempre enfocado en crear experiencias digitales excepcionales.
+          </p>
+          
+          <Timeline items={experienceItems} />
+        </section>
+        
+        <!-- Sección de Educación (inicialmente oculta) -->
+        <section id="education-section" class="hidden animate-fadeIn">
+          <h2 class="text-3xl font-bold mb-4">Education</h2>
+          
+          <Timeline items={educationItems} />
+        </section>
+        
+        <!-- Sección de Habilidades (inicialmente oculta) -->
+        <section id="skills-section" class="hidden animate-fadeIn">
+          <h2 class="text-3xl font-bold mb-4">My skills</h2>
+          <p class="text-gray-400 mb-8 max-w-3xl">
+            Domino diversas tecnologías y lenguajes de programación que me permiten desarrollar
+            soluciones web completas y eficientes.
+          </p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <!-- Habilidades técnicas -->
+            <div>
+              <h3 class="text-xl font-bold mb-4 text-emerald-400">Technical Skills</h3>
+              <div class="space-y-6">
+                {technicalSkills.map(skill => (
+                  <SkillCard
+                    number={skill.number}
+                    title={skill.title}
+                    description={skill.description}
+                    percentage={skill.percentage}
+                  />
+                ))}
+              </div>
+            </div>
+            
+            <!-- Habilidades blandas -->
+            <div>
+              <h3 class="text-xl font-bold mb-4 text-emerald-400">Soft Skills</h3>
+              <div class="space-y-6">
+                {softSkills.map(skill => (
+                  <SkillCard
+                    number={skill.number}
+                    title={skill.title}
+                    description={skill.description}
+                    percentage={skill.percentage}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Sección About Me (inicialmente oculta) -->
+        <section id="about-section" class="hidden animate-fadeIn">
+          <h2 class="text-3xl font-bold mb-6">About Me</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <p class="text-gray-400 mb-4">
+                Soy un desarrollador full stack con pasión por crear experiencias digitales 
+                excepcionales. Me especializo en construir aplicaciones web dinámicas y responsivas 
+                que no solo se ven bien, sino que también funcionan de manera eficiente.
+              </p>
+              
+              <p class="text-gray-400 mb-4">
+                Mi enfoque se centra en escribir código limpio y mantenible, y siempre estoy 
+                buscando aprender nuevas tecnologías y mejorar mis habilidades.
+              </p>
+              
+              <p class="text-gray-400">
+                Fuera del trabajo, disfruto contribuir a proyectos de código abierto, escribir 
+                artículos técnicos y compartir mis conocimientos con la comunidad de desarrolladores.
+              </p>
+            </div>
+            
+            <div>
+              <h3 class="text-xl font-bold mb-4">Personal Information</h3>
+              
+              <ul class="space-y-3">
+                <li class="flex">
+                  <span class="font-semibold w-32">Name:</span>
+                  <span class="text-gray-400">Maycol Roa</span>
+                </li>
+                
+                <li class="flex">
+                  <span class="font-semibold w-32">Age:</span>
+                  <span class="text-gray-400">26 años</span>
+                </li>
+                
+                <li class="flex">
+                  <span class="font-semibold w-32">Location:</span>
+                  <span class="text-gray-400">Bogotá, Colombia</span>
+                </li>
+                
+                <li class="flex">
+                  <span class="font-semibold w-32">Email:</span>
+                  <span class="text-gray-400">contacto@maycolroa.com</span>
+                </li>
+                
+                <li class="flex">
+                  <span class="font-semibold w-32">Languages:</span>
+                  <span class="text-gray-400">Español (Nativo), Inglés (Avanzado)</span>
+                </li>
+              </ul>
+              
+              <div class="mt-8">
+                <a href="#" class="inline-flex items-center gap-2 bg-emerald-400 text-black px-6 py-3 rounded-full font-medium hover:bg-emerald-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                  DOWNLOAD CV
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>

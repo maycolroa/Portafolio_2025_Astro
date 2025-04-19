@@ -1,0 +1,39 @@
+---
+import SocialLinks from './SocialLinks.astro';
+
+export interface Props {
+  socialLinks?: Array<{
+    platform: 'github' | 'linkedin' | 'twitter' | 'instagram' | 'facebook';
+    url: string;
+  }>;
+}
+
+const { 
+  socialLinks = [
+    { platform: 'github', url: 'https://github.com/maycolroa' },
+    { platform: 'linkedin', url: 'https://linkedin.com/in/maycolroa' }
+  ]
+} = Astro.props;
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 pt-16 pb-8 mt-20 border-t border-gray-800">
+  <div class="container mx-auto px-6 flex flex-col items-center">
+    <div class="text-2xl font-bold mb-4">
+      Maycol Roa<span class="text-emerald-400">.</span>
+    </div>
+    
+    <p class="text-gray-400 text-center max-w-lg mb-8">
+      Construyendo experiencias digitales excepcionales.
+    </p>
+    
+    <div class="mb-8">
+      <SocialLinks links={socialLinks} size="md" />
+    </div>
+    
+    <p class="text-gray-500 text-sm">
+      &copy; {currentYear} Maycol Roa. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>

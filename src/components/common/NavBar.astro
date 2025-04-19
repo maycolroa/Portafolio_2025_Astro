@@ -1,0 +1,70 @@
+---
+export interface Props {
+  activeLink?: 'home' | 'services' | 'resume' | 'work';
+}
+
+const { activeLink = 'home' } = Astro.props;
+
+const navItems = [
+  { label: 'Home', url: '/', id: 'home' },
+  { label: 'Services', url: '/service', id: 'services' },
+  { label: 'Resume', url: '/resume', id: 'resume' },
+  { label: 'Work', url: '/work', id: 'work' }
+];
+---
+
+<nav class="py-6 px-16">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <!-- Logo -->
+    <div class="text-2xl font-bold text-[#FFFFFF]">
+      Maycol Roa<span class="text-emerald-400">.</span>
+    </div>
+    
+    <!-- Enlaces de navegación -->
+    <div class="space-x-10">
+      {navItems.map(item => (
+        <a 
+          href={item.url} 
+          class={`relative pb-2 transition-colors duration-300 hover:text-emerald-400 ${
+            activeLink === item.id 
+              ? 'text-emerald-400 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-emerald-400' 
+              : 'text-[#FFFFFF]'
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+    
+    <!-- Icono de GitHub -->
+    <a href="https://github.com/maycolroa" target="_blank" rel="noopener noreferrer" class="inline-block">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-emerald-400 hover:opacity-80 transition-all duration-300 hover:-translate-y-1">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+      </svg>
+    </a>
+  </div>
+</nav>
+
+<style>
+  /* Estilo para mejorar el espaciado en enlaces más grandes */
+  nav a {
+    display: inline-block;
+  }
+  
+  /* Efecto de hover más suave */
+  nav a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #34d399;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  nav a:hover::after {
+    transform: scaleX(1);
+  }
+</style>
